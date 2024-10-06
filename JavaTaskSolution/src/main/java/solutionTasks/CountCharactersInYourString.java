@@ -48,5 +48,4 @@ public class CountCharactersInYourString {
         }
         return map;
     }
-
 }
