@@ -24,17 +24,20 @@ import java.util.*;
  * В созданный справочник при помощи метода add() можно добавлять записи, а с помощью
  * метода getTechnologicalDocumentByDetail() искать номер технологического докмумента
  * по детали.
- * Написать метод, который выводит все детали и номера технологических документов
+ * Реализовать метод getAllTechnologicalDocuments(),
+ * который выводит все детали и номера технологических документов.
+ *
  */
 
 @Getter
 @Setter
 public class DirectoryOfTechnologicalDocuments {
 
-    Map<String, HashSet<String>> mapdirectoryDocument;
+     HashMap<String, HashSet<String>> mapdirectoryDocument;
 
     // конструктор для вызова при создании экземпляра класса
     public DirectoryOfTechnologicalDocuments() {
+
         mapdirectoryDocument = new HashMap<>();
     }
 
@@ -49,6 +52,7 @@ public class DirectoryOfTechnologicalDocuments {
         }
 // иначе справочник получит номер детали и добавит к существующему списку номер документа
         mapdirectoryDocument.get(numberDetail).add(numberTechDocument);
+
     }
 
     /**
@@ -64,11 +68,12 @@ public class DirectoryOfTechnologicalDocuments {
      * получить все данные списка: все детали и номера технологических документов
      */
 //    создали метод getAllTechnologicalDocuments()
-    public void getAllTechnologicalDocuments() {
+    public  HashMap<String, HashSet<String>> getAllTechnologicalDocuments() {
         for (String key : mapdirectoryDocument.keySet()) {
-
+// вывод в консоль всех данных сформировавшегося документа
             System.out.println("№ детали: " + key + " № документа: " + mapdirectoryDocument.get(key));
         }
+        return mapdirectoryDocument;
     }
 }
 
