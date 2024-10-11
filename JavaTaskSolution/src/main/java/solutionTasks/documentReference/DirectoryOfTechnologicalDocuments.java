@@ -1,17 +1,5 @@
 package solutionTasks.documentReference;
 
-
-
-/*2. Написать простой класс Телефонный Справочник, который хранит в себе список фамилий и
-  телефонных номеров.
-  В этот телефонный справочник с помощью метода add() можно добавлять записи,
-  а с помощью метода getPhoneNumberBySurname() искать номер телефона по фамилии.
-  Следует учесть, что под одной фамилией может быть несколько  телефонов
-  (в случае однофамильцев), тогда при запросе такой фамилии должны выводиться все
-  телефоны. Желательно не добавлять  лишний функционал (дополнительные поля (имя,
-  отчество, адрес), взаимодействие с пользователем через консоль и т.д).
-  Консоль использовать только для вывода результатов проверки телефонного справочника.*/
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +14,7 @@ import java.util.*;
  * по детали.
  * Реализовать метод getAllTechnologicalDocuments(),
  * который выводит все детали и номера технологических документов.
+ *
  *
  */
 
@@ -52,7 +41,6 @@ public class DirectoryOfTechnologicalDocuments {
         }
 // иначе справочник получит номер детали и добавит к существующему списку номер документа
         mapdirectoryDocument.get(numberDetail).add(numberTechDocument);
-
     }
 
     /**
@@ -71,7 +59,7 @@ public class DirectoryOfTechnologicalDocuments {
     public  HashMap<String, HashSet<String>> getAllTechnologicalDocuments() {
         for (String key : mapdirectoryDocument.keySet()) {
 // вывод в консоль всех данных сформировавшегося документа
-            System.out.println("№ детали: " + key + " № документа: " + mapdirectoryDocument.get(key));
+//            System.out.println("№ детали: " + key + " № документа: " + mapdirectoryDocument.get(key));
         }
         return mapdirectoryDocument;
     }
