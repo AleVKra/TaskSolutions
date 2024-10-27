@@ -8,6 +8,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/*
+* команда: fileCheck
+ * путь: E://proba//xx123.txt
+ * */
 public class RunCommads extends ConsoleUI<Commands> {
 
     public static void main(String[] args) {
@@ -98,7 +102,7 @@ public class RunCommads extends ConsoleUI<Commands> {
                 System.out.println("Source directory for checking files: ");
                 sourcePath = reader.readLine();
                 fileName = sourcePath.split("/");
-                FileCheckAction checkAction = new FileCheckAction(sourcePath, fileName[fileName.length - 1]);
+                FileCheckAction checkAction = new FileCheckAction(sourcePath);
                 if (checkAction.getCheckThread().isAlive()) {
                     try {
                         checkAction.close();

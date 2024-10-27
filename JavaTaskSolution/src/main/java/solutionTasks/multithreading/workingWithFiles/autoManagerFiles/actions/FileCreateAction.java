@@ -27,8 +27,10 @@ public class FileCreateAction implements Action {
     }
 
     @Override
-    public void close() {
-        System.out.println("Your file was successfully created! \nTo finish print 'exit'.");
+    public void close()
+    {
+        System.out.println("Your file was successfully created! " +
+                "\nTo finish print 'exit'.");
     }
 
     public Thread getCreateThread() {

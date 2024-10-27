@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,26 +14,29 @@ import java.util.stream.Stream;
 /*
  * класс позволяет определить наличие файлов в каталоге
  * и переместить определённые файлы по заданному названию в
- * указанный каталог.*/
+ * указанный каталог.
+ * команда: fileCheck
+ * путь: E:\\proba\\xx123.txt
+ * */
 public class FileCheckAction implements Action {
 
-    private String sourcePath;
+    private static String sourcePath;
     private Thread checkThread;
-    private String fileName;
-    private String targetPath = "E:/proba/target";
+    Set<String> setFiles;
+    public String fileName;
+    private String targetPath = "E:\\proba\\target";
 
-
-    public FileCheckAction(String sourcePath, String fileName) throws IOException {
+    public FileCheckAction(String sourcePath) throws IOException {
         this.sourcePath = sourcePath;
-        this.fileName = fileName;
-        listFilesUsingFilesList();
+        this.setFiles = new HashSet<>();
         checkThread = new Thread("checkFile");
         checkThread.start();
     }
 
-    public Set<String> listFilesUsingFilesList() throws IOException {
-        try (Stream<Path> stream = Files.list(Paths.get(sourcePath))) {
-            return stream
+    // наличие файлов в указанной директории
+    public static Set<String> listFilesUsingFilesList() throws Exception {
+        try (Stream<Path> filesStream = Files.list(Paths.get(sourcePath))) {
+            return filesStream
                     .filter(file -> !Files.isDirectory(file))
                     .map(Path::getFileName)
                     .map(Path::toString)
@@ -41,34 +46,29 @@ public class FileCheckAction implements Action {
 
     @Override
     public void run() {
-//          полное имя директории с именем файла
-        String fullPath = targetPath + "/" + fileName;
-//  проверка на наличие файлов в директории
+        // имя целевой директории с именем файла
+        String fullPath;
+
+        //  проверка на наличие файлов в директории
         try {
             if (!listFilesUsingFilesList().isEmpty()) {
-//  получение названия файла с его проверкой и соответствия
-                String etalon = "xx123";
-                char[] strFinish = new char[5];
-                for (String failName : listFilesUsingFilesList()) {
-                    StringBuilder strName = new StringBuilder(failName);
-                    for (int i = 0; i < strName.length(); i++) {
-//   если первые 5 символов "xx123"
-                        if (i < 5) {
-                            for (int j = 0; j < strFinish.length; j++) {
-                                strFinish[i] = strName.charAt(i);
-                            }
-//      проверка полученного результата с эталоном, при соответствии переместить в указанный каталог
-                            if (strFinish.toString().equals(etalon)) {
-                                Files.createFile(Paths.get(fullPath));
-                                Files.copy(Paths.get(sourcePath), Paths.get(fullPath),
-                                        StandardCopyOption.REPLACE_EXISTING);
-                                Files.delete(Paths.get(sourcePath));
-                            }
-                        }
+                setFiles = listFilesUsingFilesList();
+                Iterator<String> iter = setFiles.iterator();
+                for (String el : listFilesUsingFilesList()) {
+                    el = iter.next();
+                    if (el.contains("xx123")) {
+                        el = fileName;
+                        fullPath = targetPath + "/" + fileName;
+                        System.out.println(el);
+//                  перемещение файла из одного каталага в другой
+                        Files.createFile(Paths.get(fullPath));
+                        Files.copy(Paths.get(sourcePath), Paths.get(fullPath),
+                                StandardCopyOption.REPLACE_EXISTING);
+                        Files.delete(Paths.get(sourcePath));
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
