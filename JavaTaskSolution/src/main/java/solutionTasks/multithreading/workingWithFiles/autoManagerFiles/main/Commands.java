@@ -10,5 +10,5 @@ public enum Commands {
     exit,
     delete,
     create,
-    fileCheck
+    fileCheckAndMove
 }

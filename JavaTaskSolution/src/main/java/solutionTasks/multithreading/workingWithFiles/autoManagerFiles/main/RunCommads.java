@@ -8,10 +8,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/*
-* команда: fileCheck
- * путь: E://proba//xx123.txt
- * */
+
+
 public class RunCommads extends ConsoleUI<Commands> {
 
     public static void main(String[] args) {
@@ -28,6 +26,7 @@ public class RunCommads extends ConsoleUI<Commands> {
         String targetPath;
         String[] fileName;
         BufferedReader reader;
+        String charactersEncountered;
         switch (command) {
             case create:
                 reader = new BufferedReader(new InputStreamReader(System.in));
@@ -94,15 +93,12 @@ public class RunCommads extends ConsoleUI<Commands> {
                     }
                 }
                 break;
-            case exit:
-                close();
-                break;
-            case fileCheck:
+            case fileCheckAndMove:
                 reader = new BufferedReader(new InputStreamReader(System.in));
-                System.out.println("Source directory for checking files: ");
-                sourcePath = reader.readLine();
-                fileName = sourcePath.split("/");
-                FileCheckAction checkAction = new FileCheckAction(sourcePath);
+                System.out.print("write the characters that occur in the file name: ");
+                charactersEncountered =reader.readLine();
+                FilesCheckingAndMovingAction checkAction =
+                        new FilesCheckingAndMovingAction(charactersEncountered);
                 if (checkAction.getCheckThread().isAlive()) {
                     try {
                         checkAction.close();
@@ -110,6 +106,9 @@ public class RunCommads extends ConsoleUI<Commands> {
                         e.printStackTrace();
                     }
                 }
+                break;
+            case exit:
+                close();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + command);
